@@ -1,0 +1,16 @@
+{
+  "name": "music-player-project",
+  "version": "1.0.0",
+  "description": "a music player channel - backend project",
+  "keywords": [
+    "javascript",
+    "backend"
+  ],
+  "license": "ISC",
+  "author": "Khushi Kumari",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  }
+}
