@@ -11,7 +11,6 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-   
     "dev": "nodemon   src/index.js"
   },
   "devDependencies": {
@@ -19,6 +18,8 @@
     "prettier": "^3.9.9"
   },
   "dependencies": {
+    "cookies-parser": "^1.2.0",
+    "cors": "^2.8.6",
     "dotenv": "^18.0.4",
     "express": "^5.2.1",
     "mongoose": "^9.10.3"
