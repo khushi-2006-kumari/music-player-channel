@@ -15,5 +15,14 @@ app.use(express.urlencoded({extended:true,limit:"16kb"})) // Read data sent from
 app.use(express.static("public")) // serve files from the public folder directly (images,PDFs,favicon, it usee when the user uploads a profile picture, express.static lets the browser show it from public folder)
 app.use(cookieParser())
 
+
+//routes import, we import after above middleware , for the sake of files segregation
+import userRoutes from "./routes/user.routes.js"
+
+//routes declaration:
+app.use("/api/v1/users",userRoutes);  //Coonects the route, connect userRoute to the main Express application
+
+//the local host looks like: http://localhost:8000/api/v1/user/register
+
 export {app} 
 

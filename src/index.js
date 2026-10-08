@@ -1,4 +1,5 @@
 //require('dotenv').config({path: './env'});
+import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import connectDB from "./db/index.js";
 dotenv.config({path:"./.env"}); //path:"./.env tells that where is .env file
@@ -6,8 +7,8 @@ dotenv.config({path:"./.env"}); //path:"./.env tells that where is .env file
 
 // in youtube these all below codes from line 7 to line 19  are not mentioned b/c for 2026 all systems to connect little bit change so that i have to write these all
 import express from 'express';
-const app=express(); //app is server object
-//import app from "./app.js";
+//const apps=express(); //app is server object
+import {app} from "./app.js";
 const port=process.env.PORT || 8000;
 
 connectDB() // connectDB() tries to connect to MongoDB, it's async, so it returns a promise

@@ -3,7 +3,7 @@
 
 // using  promise:
 const asyncHandler=(fun)=>{
-   (req,res,next)=>{
+   return (req,res,next)=>{
     Promise.resolve(fun(req,res,next)) // it uses promise instead of async-await
     .catch((error)=> next(error)) // it uses .catch instead of try-catch, it catches the error then 'next(error)' this passes the error to Express's error - handling middleware, and in middleware the status code and json response will be written
    }
@@ -16,7 +16,7 @@ export {asyncHandler}
 
 /*
 // using try- catch:
-const asyncHandler=(fun)=> async(req,res,next)=>{ // asyncHandler takes a fun (function ) as an argument ans then run async await
+const asyncHandler=(fun)=> async(req,res,next)=>{ // asyncHandler takes a fun (function ) as an argument and then run async await
   try{
     await fun(req,res,next);  // here fun argument will run by taking arguments (req,res,next) and await for complete the function fun, that what it will return
   } 
@@ -25,7 +25,7 @@ const asyncHandler=(fun)=> async(req,res,next)=>{ // asyncHandler takes a fun (f
       success:false,
       message:error.message
     })
-    //basically, send an error response to cliennt with an appropriate status code & error msg
+    //basically, send an error response to client with an appropriate status code & error msg
   }
 }
 */
