@@ -32,7 +32,7 @@ const storage = multer.diskStorage({ //Here we are tellling to MULTER, I want to
   }
 })
 
-const upload = multer({ storage: storage }) // it creates a multer middleware using the storage configuration we just created above
+export const upload = multer({ storage: storage }) // it creates a multer middleware using the storage configuration we just created above
 
 //function (req, file, cb): 
 // req: is the HTTP request coming from the user
