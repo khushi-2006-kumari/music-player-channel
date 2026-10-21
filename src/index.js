@@ -1,3 +1,5 @@
+import dns from "dns";
+dns.setServers(["8.8.8.8" , "1.1.1.1"]);
 //require('dotenv').config({path: './env'});
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";

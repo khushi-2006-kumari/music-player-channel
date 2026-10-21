@@ -50,10 +50,19 @@ const userSchema=new Schema({
   timestamps:true
 });
 
+/*
 userSchema.pre("save",async function(next){ // we can't use here arrow function becoz we can't get access 'this'
   if(!this.isModified("password")) return next(); // if the "password" is not modified so return next(), note one thing we write 'return next()' instead of 'next()' becoz we don't want to run the below line of code so return from this line 
   this.password= await bcrypt.hash(this.password,10); // here we store password in mongoDB after hash the passwod that's why we use bcrypt library, because mongoDb stores hashed password, not the users enterd password, and when we enter later so it compare the stored hashed password with entered password
-  next(); // now it runs to tell that the function is done now mongoose can do save operation
+   next();// now it runs to tell that the function is done now mongoose can do save operation
+})
+*/
+
+//new version:
+userSchema.pre("save",async function(){ 
+  if(!this.isModified("password")) return ; 
+  this.password= await bcrypt.hash(this.password,10); 
+  
 })
 
 userSchema.methods.isPasswordCorrect=  //  it means creates a custom method that every user document can use, and whose name is 'isPasswordCorrect'
@@ -62,9 +71,9 @@ userSchema.methods.isPasswordCorrect=  //  it means creates a custom method that
   } // it return in boolean means true ot false, true means matched otherwise false
 
   userSchema.methods.generateAccessToken=function(){
-    jwt.sign(
+    return jwt.sign(
       {
-        id:this.id,
+        _id:this._id,
         userName:this.userName,
         email:this.email,
         fullName:this.fullName
@@ -76,9 +85,9 @@ userSchema.methods.isPasswordCorrect=  //  it means creates a custom method that
     )
   }
   userSchema.methods.generateRefreshToken=function(){
-    jwt.sign(
+   return  jwt.sign(
       {
-        id:this.id,
+        _id:this._id,
         userName:this.userName,
         email:this.email,
         fullName:this.fullName

@@ -1,5 +1,7 @@
 import { v2 as cloudinary } from 'cloudinary';
 import fs from "fs"; // fs is file system library in node.js
+import dotenv from "dotenv";
+dotenv.config({path:"./.env"});
 
 
 // Configuration: This connects the backend to clousinary account
@@ -17,10 +19,13 @@ const uploadFile=async (localFilePath)=>{ // localFilePath is uploadede at local
       resource_type:"auto" // 'resource_type' means whatever type of file like image.png is iamge, mp4 means video, so according to file type cloudinary will know the file type by its own , that's why we use 'auto'
     })
     //file has been uploaded successfully
-    console.log("File is successfully uploaded on cloudinary", response.url);
+    fs.unlinkSync(localFilePath);
+   // console.log("File is successfully uploaded on cloudinary", response.url);
     return response;
   }catch(error) {
+    console.log("error present")
      fs.unlinkSync(localFilePath); //if there is an error/ fails to upload, so remove that temporary stored file from local server 
+    
      return null;
 
   }
