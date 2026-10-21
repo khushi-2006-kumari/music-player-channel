@@ -88,9 +88,7 @@ userSchema.methods.isPasswordCorrect=  //  it means creates a custom method that
    return  jwt.sign(
       {
         _id:this._id,
-        userName:this.userName,
-        email:this.email,
-        fullName:this.fullName
+      
       },
       process.env.REFRESH_TOKEN_SECRET,
       {
