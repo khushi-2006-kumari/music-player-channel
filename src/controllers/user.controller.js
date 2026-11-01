@@ -265,6 +265,113 @@ const refreshAccessToken=asyncHandler(async(req,res)=>{
   }
 })
 
+const updateCurrentPassword=asyncHandler(async(req,res)=>{
+   const {oldPassword,newPassword} =req.body;
+
+    const user=await User.findById(req.user?._id);
+    const isPasswordCorrect=await user.isPasswordCorrect(oldPassword);
+
+    if(!isPasswordCorrect){
+      throw new ApiError(400, "Invalid password");
+
+    }
+
+    user.password=newPassword; //here newPassword changes the user documnet in memory, not permanent save in  database
+
+    await user.save({validateBeforeSave:false}); //here we save the newPassword using built-in save operation , function in mongoose
+    //  validateBeforeSave:false, here we set false becoz  mongoose runs schema validations before saving, and it runs email,username etc which we don't want now, so we skip it
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200,{},"Password updated successfully"));
+
+})
+
+const getCurrentUser=asyncHandler(async(req,res)=>{
+   
+
+    return res
+    .status(200)
+    .json( new ApiResponse(200,req.user,"current user fetched successfully"));
+});
+
+const updateAccountDetails=asyncHandler(async(req,res)=>{
+      const {fullName, email, userName}=req.body;
+
+      if(!fullName || !email || !userName){
+        throw new ApiError(400, "All fields are required");
+      }
+
+      const user=await User.findByIdAndUpdate(
+        req.user?._id,{
+          $set:{ //update the specified fields,(fullName,email,userName) and other fields remain unchanged
+            fullName,
+            email,
+            userName
+          }
+        },
+        {new:true} //returns the updated user document instead of the old document
+      ).select("-password"); //exclude the password field from returned user document for security
+
+      return res
+      .status(200)
+      .json(new ApiResponse(200,user,"Account details updated successfully"));
+});
+
+const updateUserAvatar=asyncHandler(async(req,res)=>{
+    const avatarLocalPath=req.file?.path;
+    if(!avatarLocalPath){
+      throw new ApiError(400,"Avatar file is missing");
+    }
+
+    const avatar=await uploadFile(avatarLocalPath);
+    if(!avatar.url){
+      throw new ApiError(400, "Error while uploading an avatar");
+    }
+
+    const user=await User.findByIdAndUpdate(
+      req.user?._id,{
+        $set:{
+          avatar:avatar.url
+        }
+      },
+      {new:true}
+    ).select("-password");
+
+    return res
+    .status(200)
+    .json(new ApiResponse(
+      200,
+      user,
+      "Avatar updated successfully"
+    ))
+});
+
+const  updateUserCoverImage=asyncHandler(async(req,res)=>{
+  const coverImageLocalPath=req.file?.path;
+
+  if(!coverImageLocalPath){
+      throw new ApiError(400,"CoverImage file is missing");
+  }
+  const coverImage=await uploadFile(coverImageLocalPath);
+  if(!coverImage.url){
+    throw new ApiError(400, "Error while uploading coverImage");
+  }
+
+  const user=await User.findByIdAndUpdate(
+    req.user?._id,{
+      $set:{
+        coverImage:coverImage.url
+      }
+    },
+    {new:true}
+  ).select("-password");
+
+  return res
+  .status(200)
+  .json(new ApiResponse(200, user, "CoverImage updated successfully"));
+})
 
 
-export {registerUser,loginUser,logoutUser,refreshAccessToken}
+
+export {registerUser,loginUser,logoutUser,refreshAccessToken,updateCurrentPassword,getCurrentUser,updateAccountDetails,updateUserAvatar,updateUserCoverImage}
