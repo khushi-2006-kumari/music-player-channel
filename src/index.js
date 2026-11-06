@@ -37,6 +37,8 @@ connectDB() // connectDB() tries to connect to MongoDB, it's async, so it return
 
 
 
+
+
 /*
 import mongoose from 'mongoose';
 import { DB_NAME } from './constants';
