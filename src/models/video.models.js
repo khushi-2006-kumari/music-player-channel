@@ -41,6 +41,6 @@ const videoSchema=new Schema({
     
 },{timestamps:true});
 
-videoSchema.plugin(mongooseAggregatePaginate); // we use method as videoSchema is an object and use funnction plugin
+videoSchema.plugin(mongooseAggregatePaginate); // we use method as videoSchema is an object and use function plugin
 
 export const Video=mongoose.model("Video",videoSchema);
