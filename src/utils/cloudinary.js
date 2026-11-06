@@ -23,12 +23,23 @@ const uploadFile=async (localFilePath)=>{ // localFilePath is uploadede at local
    // console.log("File is successfully uploaded on cloudinary", response.url);
     return response;
   }catch(error) {
-    console.log("error present")
+    console.log("clodinary upload file failed")
      fs.unlinkSync(localFilePath); //if there is an error/ fails to upload, so remove that temporary stored file from local server 
     
      return null;
 
   }
 }
-export {uploadFile};
+
+const deleteFile=async(publicid)=>{
+  try{
+    if(!publicid) return null;
+    return await cloudinary.uploader.destroy(publicid);
+  }catch(error){
+    console.log("Cloudinary delete failed");
+    return null;
+
+  }
+}
+export {uploadFile,deleteFile};
 

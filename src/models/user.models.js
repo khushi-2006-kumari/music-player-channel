@@ -29,8 +29,14 @@ const userSchema=new Schema({
       type:String,
       required:true
     },
+    avatarPublicId:{
+      type:String
+    },
     coverImage:{
       type:String // use third party like clodinary,aws
+    },
+    coverImagePublicId:{
+      type:String
     },
     password:{
       type:String,
